@@ -1,0 +1,20 @@
+to: revealjs
+input-file :
+output-file :
+
+template: writing_tools/pandoc/templates/revealjs_template.html
+standalone:   true
+# self-contained:   true
+
+metadata:
+    title:
+    author: Cail Daley
+    date:
+variables:
+    theme_url: writing_tools/revealjs/themes/cail.css
+    width:  1600
+    height: 900
+    margin: 0.05
+    slideNumber: true
+    pdfSeparateFragments : false
+    pdfMaxPagesPerSlide : 1

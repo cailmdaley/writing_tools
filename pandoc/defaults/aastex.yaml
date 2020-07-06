@@ -1,0 +1,29 @@
+pdf-engine : xelatex
+highlight-style: null
+template: aastex63_template.tex
+
+pdf-engine : xelatex
+highlight-style: null
+template: aastex63_template.tex
+
+variables:
+    title:
+    date:
+    author:
+        - name: Cail Daley
+          ORCID: 0000-0002-3760-2086
+          affiliation: ["Department of Astronomy, University of Illinois, 1002 W. Green St., Urbana, IL 61801, USA"]
+
+    aastexopts: [modern]
+    classfile: aastex63
+    # fontsize: 12pt
+    linkcolor: "MidnightBlue"
+    citecolor: "MidnightBlue"
+    urlcolor: "MidnightBlue"
+    link-citations : true
+    # csl: /src/.panrun/aastex63/ApJ.csl
+
+filters:
+- /src/.panrun/filters/pandoc-crossref
+- pandoc-citeproc
+- /src/.panrun/aastex63/filters/acknowledgments.lua
