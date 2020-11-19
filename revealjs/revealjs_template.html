@@ -118,8 +118,6 @@ $endif$
         // Push each slide change to the browser history
 $if(history)$
         history: $history$,
-$else$
-        history: true,
 $endif$
 $if(keyboard)$
         // Enable keyboard shortcuts for navigation
@@ -293,14 +291,22 @@ $endif$
 $if(parallaxBackgroundVertical)$
         parallaxBackgroundVertical: $parallaxBackgroundVertical$,
 $endif$
+$if(pdfSeparateFragments)$ 
+        // print all fragments in their visible states on the same slide
+        pdfSeparateFragments: $pdfSeparateFragments$,
+$endif$
+$if(pdfMaxPagesPerSlide)$
+        // ensure that no slide ever grows to more than one printed page 
+        pdfMaxPagesPerSlide: $pdfMaxPagesPerSlide$,
+$endif$
 $if(width)$
         // The "normal" size of the presentation, aspect ratio will be preserved
         // when the presentation is scaled to fit different resolutions. Can be
         // specified using percentage units.
-        width: $width$,
+        width: "$width$",
 $endif$
 $if(height)$
-        height: $height$,
+        height: "$height$",
 $endif$
 $if(margin)$
         // Factor of the display size that should remain empty around the content
@@ -324,7 +330,7 @@ $endif$
 $if(mathjax)$
         math: {
           mathjax: '$mathjaxurl$',
-          config: 'TeX-AMS_HTML-full',
+          config: 'TeX-AMS_CHTML-full',
           tex2jax: {
             inlineMath: [['\\(','\\)']],
             displayMath: [['\\[','\\]']],
@@ -350,24 +356,34 @@ $endif$
           RevealZoom
         ]
       });
-      // automatically load the initial fragment on a slide if the fragment
-      // has been defined with the 'preload' class
-      Reveal.addEventListener('slidechanged', function(event) {
-        if (event.currentSlide.querySelectorAll('.preload[data-fragment-index="0"]').length > 0) {
-          Reveal.nextFragment();
-        }
-      });
+  </script>
 
-      // if the initial fragment on a slide has been defined with a 'preload' class
-      // then transition to the previous slide if the fragment is hidden
-      Reveal.addEventListener('fragmenthidden', function(event) {
-        if (event.fragment.hasAttribute('data-fragment-index') && event.fragment.classList.contains('preload')) {
-          if (event.fragment.attributes['data-fragment-index'].value == "0") {
-            Reveal.prev();
-          }
+  <!-- my hacks -->
+  <script>
+    // automatically load the initial fragment on a slide if the fragment
+    // has been defined with the 'preload' class
+    Reveal.addEventListener('slidechanged', function(event) {
+      if (event.currentSlide.querySelectorAll('.preload[data-fragment-index="0"]').length > 0) {
+        Reveal.nextFragment();
+      }
+    });
+    // if the initial fragment on a slide has been defined with a 'preload' class
+    // then transition to the previous slide if the fragment is hidden
+    Reveal.addEventListener('fragmenthidden', function(event) {
+      if (event.fragment.hasAttribute('data-fragment-index') && event.fragment.classList.contains('preload')) {
+        if (event.fragment.attributes['data-fragment-index'].value == "0") {
+          Reveal.prev();
         }
-      });
-    </script>
+      }
+    });
+
+    // load physics package
+    window.MathJax = {
+      loader: {load: ['[tex]/physics']},
+      tex: {packages: {'[+]': ['physics']}}
+    };
+  </script>
+
   $for(include-after)$
   $include-after$
   $endfor$
